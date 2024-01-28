@@ -16,7 +16,6 @@ class _HomepageState extends State<Homepage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     player;
   }
@@ -25,7 +24,6 @@ class _HomepageState extends State<Homepage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _artistNameController.dispose();
   }
@@ -85,14 +83,23 @@ class _HomepageState extends State<Homepage> {
                             : IconButton(
                                 icon: const Icon(Icons.play_arrow),
                                 onPressed: () async {
-                                  await player.play(
-                                    UrlSource(value.resultDetail?.results[index]
-                                            .previewUrl ??
-                                        "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/c8/da/b7/c8dab799-c65a-dd8e-a1aa-5c23cdde8bac/mzaf_8311999419602397877.plus.aac.p.m4a"),
-                                  );
-                                  setState(() {
-                                    isPlaying = true;
-                                  });
+                                  if (value.resultDetail?.results[index]
+                                          .previewUrl !=
+                                      null) {
+                                    await player.play(
+                                      UrlSource(value.resultDetail!
+                                          .results[index].previewUrl!),
+                                    );
+                                    setState(() {
+                                      isPlaying = true;
+                                    });
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text("Tidak ada preview"),
+                                      ),
+                                    );
+                                  }
                                 },
                               ),
                         leading:
